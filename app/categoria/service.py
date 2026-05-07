@@ -1,9 +1,10 @@
-from sqlmodel import Session, select
+from sqlmodel import Session, select, delete
 from fastapi import HTTPException, status
 from typing import List
 
 from .model import Categoria
 from .schema import CategoriaCreate, CategoriaUpdate
+from app.producto_categoria.model import ProductoCategoria
 
 
 def crear_categoria(session: Session, data: CategoriaCreate) -> Categoria:
@@ -41,6 +42,13 @@ def actualizar_categoria(session: Session, id: int, data: CategoriaUpdate) -> Ca
 
 def eliminar_categoria(session: Session, id: int) -> dict:
     categoria_db = obtener_categoria_por_id(session, id)
+
+    # 1. Eliminar relaciones dependientes en la tabla intermedia primero
+    statement = delete(ProductoCategoria).where(ProductoCategoria.categoria_id == id)
+    session.exec(statement)
+
+    # 2. Eliminar la categoría
     session.delete(categoria_db)
     session.commit()
+
     return {"ok": True, "mensaje": f"Categoría {id} eliminada"}

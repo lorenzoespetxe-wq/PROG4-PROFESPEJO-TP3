@@ -1,44 +1,98 @@
-### 1. Crear Producto (Prueba esquema ProductoCreate)
+### ==========================================
+### 1. CRUD DE CATEGORÍAS
+### ==========================================
+
+### Crear Categoría 1
+POST http://localhost:8000/categorias/
+Content-Type: application/json
+
+{
+  "nombre": "Componentes de PC",
+  "descripcion": "Hardware interno y piezas fundamentales"
+}
+
+### Crear Categoría 2
+POST http://localhost:8000/categorias/
+Content-Type: application/json
+
+{
+  "nombre": "Periféricos",
+  "descripcion": "Dispositivos de entrada y salida"
+}
+
+### Listar Categorías
+GET http://localhost:8000/categorias/
+
+### Obtener Categoría por ID
+GET http://localhost:8000/categorias/1
+
+
+### ==========================================
+### 2. CRUD DE PRODUCTOS (Creación y Actualización Anidada)
+### ==========================================
+
+### Crear Producto con asignación automática de categorías
 POST http://localhost:8000/productos/
 Content-Type: application/json
 
 {
-  "nombre": "Teclado Mecánico RGB",
-  "categoria": "Periféricos",
-  "precio": 4500.50,
-  "stock": 20,
-  "stock_minimo": 5
+  "nombre": "Memoria RAM DDR5 32GB",
+  "descripcion": "Módulo de alta velocidad 6000MHz",
+  "precio_base": 125000.00,
+  "imagen_url": [
+    "https://ejemplo.com/ram1.jpg"
+  ],
+  "disponible": true,
+  "categoria_ids": [1]
 }
 
-### 2. Listar todos los productos (Prueba GET /)
+### Crear otro producto asignado a múltiples categorías (IDs 1 y 2)
+POST http://localhost:8000/productos/
+Content-Type: application/json
+
+{
+  "nombre": "Combo Teclado + Mouse Gamer",
+  "descripcion": "Kit mecánico con iluminación RGB",
+  "precio_base": 85000.00,
+  "imagen_url": ["https://ejemplo.com/combo.jpg"],
+  "disponible": true,
+  "categoria_ids": [1, 2]
+}
+
+### Listar Productos
 GET http://localhost:8000/productos/
 
-### 3. Detalle de producto por ID (Reemplaza el 1 por un ID existente)
-GET http://localhost:8000/productos/1
-
-### 4. Actualizar producto (Prueba PUT /{id})
+### Actualizar Producto (Reemplaza las categorías asignadas, ej: de [1] a [2])
 PUT http://localhost:8000/productos/1
 Content-Type: application/json
 
 {
-  "nombre": "Teclado Mecánico Pro",
-  "categoria": "Periféricos",
-  "precio": 5200.00,
-  "stock": 15,
-  "stock_minimo": 5
+  "nombre": "Memoria RAM DDR5 32GB Pro",
+  "descripcion": "Módulo optimizado para overclocking",
+  "precio_base": 135000.00,
+  "imagen_url": ["https://ejemplo.com/ram_pro.jpg"],
+  "disponible": true,
+  "categoria_ids": [1, 2]
 }
 
-### 5. Desactivar producto (Borrado Lógico)
-PUT http://localhost:8000/productos/1/desactivar
 
-### 6. Prueba de ERROR: Validación Pydantic (Precio negativo)
-POST http://localhost:8000/productos/
-Content-Type: application/json
+### ==========================================
+### 3. RELACIÓN PRODUCTO-CATEGORÍA (Lectura estricta)
+### ==========================================
 
-{
-  "nombre": "Error",
-  "categoria": "Prueba",
-  "precio": -100,
-  "stock": 1,
-  "stock_minimo": 1
-}
+### Listar todas las relaciones generadas automáticamente
+GET http://localhost:8000/producto-categorias/
+
+### Obtener las categorías asociadas a un producto específico
+GET http://localhost:8000/producto-categorias/producto/1
+
+
+### ==========================================
+### 4. ELIMINACIÓN
+### ==========================================
+
+### Eliminar un Producto (Ejecuta la eliminación previa de relaciones para evitar IntegrityError)
+DELETE http://localhost:8000/productos/2
+
+### Eliminar una Categoría
+DELETE http://localhost:8000/categorias/2

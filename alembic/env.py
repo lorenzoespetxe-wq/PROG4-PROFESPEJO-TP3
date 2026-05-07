@@ -8,6 +8,9 @@ from sqlalchemy import engine_from_config, pool
 from alembic import context
 from sqlmodel import SQLModel
 from app.producto.model import Producto
+from app.categoria.model import Categoria
+from app.producto_categoria.model import ProductoCategoria
+
 
 config = context.config
 if config.config_file_name is not None:

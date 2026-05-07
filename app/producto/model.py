@@ -1,5 +1,6 @@
 from typing import Optional, List, TYPE_CHECKING
 from sqlmodel import SQLModel, Field, Relationship
+from sqlalchemy import Column, JSON
 
 if TYPE_CHECKING:
     from app.producto_categoria.model import ProductoCategoria
@@ -10,7 +11,7 @@ class Producto(SQLModel, table=True):
     nombre: str
     descripcion: str
     precio_base: float
-    imagen_url: Optional[str] = Field(default=None)
+    imagen_url: List[str] = Field(default_factory=list, sa_column=Column(JSON))
     disponible: bool = Field(default=True)
 
     # Relación hacia la tabla intermedia

@@ -11,7 +11,5 @@ class ProductoCategoriaCreate(ProductoCategoriaBase):
 
 
 class ProductoCategoriaRead(ProductoCategoriaBase):
-    id: int
-
     class Config:
         from_attributes = True

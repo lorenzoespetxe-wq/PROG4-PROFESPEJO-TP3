@@ -20,17 +20,3 @@ def listar_por_producto(producto_id: int, session: Session = Depends(get_session
     return service.obtener_categorias_de_producto(
         session=session, producto_id=producto_id
     )
-
-
-@router.post(
-    "/",
-    response_model=schema.ProductoCategoriaRead,
-    status_code=status.HTTP_201_CREATED,
-)
-def crear(rel: schema.ProductoCategoriaCreate, session: Session = Depends(get_session)):
-    return service.crear_producto_categoria(session=session, data=rel)
-
-
-@router.delete("/{id}")
-def eliminar(id: int, session: Session = Depends(get_session)):
-    return service.eliminar_producto_categoria(session=session, id=id)

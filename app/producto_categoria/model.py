@@ -9,9 +9,9 @@ if TYPE_CHECKING:
 class ProductoCategoria(SQLModel, table=True):
     __tablename__ = "producto_categoria"
 
-    id: Optional[int] = Field(default=None, primary_key=True)
-    producto_id: int = Field(foreign_key="producto.id", index=True)
-    categoria_id: int = Field(foreign_key="categoria.id", index=True)
+    # Clave primaria compuesta por ambas FKs
+    producto_id: int = Field(foreign_key="producto.id", primary_key=True, index=True)
+    categoria_id: int = Field(foreign_key="categoria.id", primary_key=True, index=True)
 
     producto: Optional["Producto"] = Relationship(back_populates="producto_categorias")
     categoria: Optional["Categoria"] = Relationship(

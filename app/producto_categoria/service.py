@@ -47,8 +47,9 @@ def obtener_categorias_de_producto(
     ).all()
 
 
-def eliminar_producto_categoria(session: Session, id: int) -> dict:
-    rel = session.get(ProductoCategoria, id)
+def eliminar_relacion(session: Session, producto_id: int, categoria_id: int) -> dict:
+    # Buscamos por la clave compuesta
+    rel = session.get(ProductoCategoria, (producto_id, categoria_id))
     if not rel:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
@@ -56,4 +57,4 @@ def eliminar_producto_categoria(session: Session, id: int) -> dict:
         )
     session.delete(rel)
     session.commit()
-    return {"ok": True, "mensaje": f"Relación {id} eliminada"}
+    return {"ok": True, "mensaje": "Relación eliminada correctamente"}

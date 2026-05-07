@@ -1,7 +1,7 @@
 Para correr:
 
 1 - Correr el contenedor con la db:
-docker-compose up -docker
+docker-compose up -d
 
 
 2 - Crear el entorno virtual y correrlo:
