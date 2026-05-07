@@ -1,0 +1,44 @@
+### 1. Crear Producto (Prueba esquema ProductoCreate)
+POST http://localhost:8000/productos/
+Content-Type: application/json
+
+{
+  "nombre": "Teclado Mecánico RGB",
+  "categoria": "Periféricos",
+  "precio": 4500.50,
+  "stock": 20,
+  "stock_minimo": 5
+}
+
+### 2. Listar todos los productos (Prueba GET /)
+GET http://localhost:8000/productos/
+
+### 3. Detalle de producto por ID (Reemplaza el 1 por un ID existente)
+GET http://localhost:8000/productos/1
+
+### 4. Actualizar producto (Prueba PUT /{id})
+PUT http://localhost:8000/productos/1
+Content-Type: application/json
+
+{
+  "nombre": "Teclado Mecánico Pro",
+  "categoria": "Periféricos",
+  "precio": 5200.00,
+  "stock": 15,
+  "stock_minimo": 5
+}
+
+### 5. Desactivar producto (Borrado Lógico)
+PUT http://localhost:8000/productos/1/desactivar
+
+### 6. Prueba de ERROR: Validación Pydantic (Precio negativo)
+POST http://localhost:8000/productos/
+Content-Type: application/json
+
+{
+  "nombre": "Error",
+  "categoria": "Prueba",
+  "precio": -100,
+  "stock": 1,
+  "stock_minimo": 1
+}

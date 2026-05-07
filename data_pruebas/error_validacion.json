@@ -1,0 +1,7 @@
+{
+  "nombre": "A",
+  "categoria": "Hardware",
+  "precio": 100.00,
+  "stock": -5,
+  "stock_minimo": 0
+}
